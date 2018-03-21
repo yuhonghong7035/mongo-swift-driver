@@ -31,6 +31,10 @@ Pod::Spec.new do |spec|
   [[ -d Sources/libmongoc ]] || git clone --depth 1 https://github.com/mongodb/swift-mongoc Sources/libmongoc
   EOT
 
+  puts(`env`)
+  puts('\n\n')
+  puts(ENV)
+
   # dynamically find paths for libmongoc
   mongoc_paths = {
     "include" => `pkg-config libmongoc-1.0 --cflags-only-I`.chomp!.split(' ').map { |path| "\"#{path.sub(/-I/, '')}\"" }.join(' '),
