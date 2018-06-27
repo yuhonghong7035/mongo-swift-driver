@@ -116,18 +116,18 @@ EOF
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>CFBundleExecutable</key>
-<string>${FRAMEWORK_NAME}</string>
-<key>CFBundleIdentifier</key>
-<string>com.mongodb</string>
-<key>CFBundleInfoDictionaryVersion</key>
-<string>6.0</string>
-<key>CFBundlePackageType</key>
-<string>FMWK</string>
-<key>CFBundleSignature</key>
-<string>????</string>
-<key>CFBundleVersion</key>
-<string>${FRAMEWORK_VERSION}</string>
+        <key>CFBundleExecutable</key>
+        <string>${FRAMEWORK_NAME}</string>
+        <key>CFBundleIdentifier</key>
+        <string>org.mongodb.${FRAMEWORK_NAME}</string>
+        <key>CFBundlePackageType</key>
+        <string>FMWK</string>
+        <key>CFBundleShortVersionString</key>
+        <string>${FRAMEWORK_VERSION}</string>
+        <key>CFBundleSignature</key>
+        <string>????</string>
+        <key>CFBundleVersion</key>
+        <string>${FRAMEWORK_VERSION}</string>
 </dict>
 </plist>
 EOF
@@ -190,18 +190,18 @@ EOF
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>CFBundleExecutable</key>
-<string>${FRAMEWORK_NAME}</string>
-<key>CFBundleIdentifier</key>
-<string>com.mongodb</string>
-<key>CFBundleInfoDictionaryVersion</key>
-<string>6.0</string>
-<key>CFBundlePackageType</key>
-<string>FMWK</string>
-<key>CFBundleSignature</key>
-<string>????</string>
-<key>CFBundleVersion</key>
-<string>${FRAMEWORK_VERSION}</string>
+        <key>CFBundleExecutable</key>
+        <string>${FRAMEWORK_NAME}</string>
+        <key>CFBundleIdentifier</key>
+        <string>org.mongodb.${FRAMEWORK_NAME}</string>
+        <key>CFBundlePackageType</key>
+        <string>FMWK</string>
+        <key>CFBundleShortVersionString</key>
+        <string>${FRAMEWORK_VERSION}</string>
+        <key>CFBundleSignature</key>
+        <string>????</string>
+        <key>CFBundleVersion</key>
+        <string>${FRAMEWORK_VERSION}</string>
 </dict>
 </plist>
 EOF
