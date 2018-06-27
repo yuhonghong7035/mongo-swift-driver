@@ -107,6 +107,9 @@ EOF
   FRAMEWORK_VNAME=$FRAMEWORK_NAME-$FRAMEWORK_VERSION
   lipo -create $SDK_PATH_OS/lib/$FRAMEWORK_VNAME.dylib $SDK_PATH_SIM/lib/$FRAMEWORK_VNAME.dylib -o "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME" || exit 1
 
+  # fix up rpaths
+  install_name_tool -id @rpath/$FRAMEWORK_NAME.framework/Versions/Current/$FRAMEWORK_NAME "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME"
+
   echo "  > creating plist"
     cat > "$FRAMEWORK_BUNDLE/Resources/Info.plist" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
@@ -176,6 +179,10 @@ EOF
   echo "  > lipoing libraries into framework"
   FRAMEWORK_VNAME=$FRAMEWORK_NAME-$FRAMEWORK_VERSION
   lipo -create $SDK_PATH_OS/lib/$FRAMEWORK_VNAME.dylib $SDK_PATH_SIM/lib/$FRAMEWORK_VNAME.dylib -o "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME" || exit 1
+
+  # fix up rpaths
+  install_name_tool -id @rpath/$FRAMEWORK_NAME.framework/Versions/Current/$FRAMEWORK_NAME "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME"
+  install_name_tool -change @rpath/libbson-1.0.1.dylib @rpath/libbson.framework/Versions/Current/libbson "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME"
 
   echo "  > creating plist"
     cat > "$FRAMEWORK_BUNDLE/Resources/Info.plist" <<EOF
