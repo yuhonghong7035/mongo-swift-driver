@@ -18,8 +18,7 @@ Pod::Spec.new do |spec|
   spec.osx.deployment_target = "10.10"
 
   spec.requires_arc = true
-  spec.source_files = 'Sources/MongoSwift/**/*.swift', 'libbson.framework/Headers/*.h'
-  spec.public_header_files = 'libbson.framework/Headers/*.h'
+  spec.source_files = 'Sources/MongoSwift/**/*.swift'
   spec.prepare_command = 'sh build.sh'
   spec.ios.vendored_frameworks = 'MobileSDKs/iphoneos/libbson.framework', 'MobileSDKs/iphoneos/libmongoc.framework'
 end
