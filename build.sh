@@ -94,10 +94,12 @@ EOF
   echo "  > creating module map"
   mkdir -p "$FRAMEWORK_BUNDLE/Modules"
   cat > "$FRAMEWORK_BUNDLE/Modules/module.modulemap" <<EOF
-framework module ${FRAMEWORK_NAME} [system] {
+framework module ${FRAMEWORK_NAME} {
   umbrella header "${FRAMEWORK_NAME}.h"
   link "${FRAMEWORK_BASE_NAME}"
+
   export *
+  module * { export * }
 }
 EOF
 
@@ -160,10 +162,12 @@ EOF
   echo "  > creating module map"
   mkdir -p "$FRAMEWORK_BUNDLE/Modules"
   cat > "$FRAMEWORK_BUNDLE/Modules/module.modulemap" <<EOF
-framework module ${FRAMEWORK_NAME} [system] {
+framework module ${FRAMEWORK_NAME} {
   umbrella header "${FRAMEWORK_NAME}.h"
   link "${FRAMEWORK_BASE_NAME}"
+
   export *
+  module * { export * }
 }
 EOF
 
