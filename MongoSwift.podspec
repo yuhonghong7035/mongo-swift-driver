@@ -1,5 +1,5 @@
 Pod::Spec.new do |spec|
-  spec.name       = "MongoSwiftMobile"
+  spec.name       = "MongoSwift"
   spec.version    = "0.0.2"
   spec.summary    = "The Swift driver for MongoDB"
   spec.homepage   = "https://github.com/mongodb/mongo-swift-driver"
@@ -18,7 +18,8 @@ Pod::Spec.new do |spec|
   spec.osx.deployment_target = "10.10"
 
   spec.requires_arc = true
-  spec.source_files = "Sources/MongoSwift/**/*.swift"
+  spec.source_files = 'Sources/MongoSwift/**/*.swift', 'libbson.framework/Headers/*.h'
+  spec.public_header_files = 'libbson.framework/Headers/*.h'
   spec.prepare_command = 'sh build.sh'
   spec.ios.vendored_frameworks = 'MobileSDKs/iphoneos/libbson.framework', 'MobileSDKs/iphoneos/libmongoc.framework'
 end
