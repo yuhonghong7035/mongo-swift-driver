@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # helper functions
 # mobile_sdk_url() {
@@ -76,12 +76,14 @@ build_libbson() {
   mkdir -p "$FRAMEWORK_BUNDLE"
   mkdir -p "$FRAMEWORK_BUNDLE/Versions"
   mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION"
-  mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources"
   mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Headers"
+  mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Libraries"
+  mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources"
 
   echo "  > creating symlinks"
   ln -s "$FRAMEWORK_VERSION"               "$FRAMEWORK_BUNDLE/Versions/Current"
   ln -s "Versions/Current/Headers"         "$FRAMEWORK_BUNDLE/Headers"
+  ln -s "Versions/Current/Libraries"       "$FRAMEWORK_BUNDLE/Libraries"
   ln -s "Versions/Current/Resources"       "$FRAMEWORK_BUNDLE/Resources"
 
   echo "  > copying includes"
@@ -104,7 +106,10 @@ framework module ${FRAMEWORK_NAME} {
 EOF
 
   echo "  > lipoing libraries into framework"
-  lipo -create $SDK_PATH_OS/lib/$FRAMEWORK_NAME-$FRAMEWORK_VERSION.dylib $SDK_PATH_SIM/lib/$FRAMEWORK_NAME-$FRAMEWORK_VERSION.dylib -o "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME" || exit 1
+  for LIB in $SDK_PATH_OS/lib/$FRAMEWORK_NAME-*.dylib; do
+    BASE_LIB=$(basename "$LIB")
+    lipo -create $SDK_PATH_OS/lib/$BASE_LIB $SDK_PATH_SIM/lib/$BASE_LIB -o "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Libraries/$BASE_LIB" || exit 1
+  done
 
   echo "  > creating plist"
     cat > "$FRAMEWORK_BUNDLE/Resources/Info.plist" <<EOF
@@ -145,16 +150,19 @@ build_libmongoc() {
   mkdir -p "$FRAMEWORK_BUNDLE"
   mkdir -p "$FRAMEWORK_BUNDLE/Versions"
   mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION"
-  mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources"
   mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Headers"
+  mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Libraries"
+  mkdir -p "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Resources"
 
   echo "  > creating symlinks"
   ln -s "$FRAMEWORK_VERSION"               "$FRAMEWORK_BUNDLE/Versions/Current"
   ln -s "Versions/Current/Headers"         "$FRAMEWORK_BUNDLE/Headers"
+  ln -s "Versions/Current/Libraries"       "$FRAMEWORK_BUNDLE/Libraries"
   ln -s "Versions/Current/Resources"       "$FRAMEWORK_BUNDLE/Resources"
 
   echo "  > copying includes"
   cp -r $SDK_PATH_OS/include/$FRAMEWORK_NAME*/* "$FRAMEWORK_BUNDLE/Headers/" || exit 1
+  sed -i '' -e 's/#include <bson.h>/#include <libbson\/bson.h>/g' $FRAMEWORK_BUNDLE/Headers/*.h
   cat > "$FRAMEWORK_BUNDLE/Headers/${FRAMEWORK_NAME}.h" <<EOF
 #include "${FRAMEWORK_BASE_NAME}.h"
 EOF
@@ -172,7 +180,10 @@ framework module ${FRAMEWORK_NAME} {
 EOF
 
   echo "  > lipoing libraries into framework"
-  lipo -create $SDK_PATH_OS/lib/$FRAMEWORK_NAME-$FRAMEWORK_VERSION.dylib $SDK_PATH_SIM/lib/$FRAMEWORK_NAME-$FRAMEWORK_VERSION.dylib -o "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/$FRAMEWORK_NAME" || exit 1
+  for LIB in $SDK_PATH_OS/lib/$FRAMEWORK_NAME-*.dylib; do
+    BASE_LIB=$(basename "$LIB")
+    lipo -create $SDK_PATH_OS/lib/$BASE_LIB $SDK_PATH_SIM/lib/$BASE_LIB -o "$FRAMEWORK_BUNDLE/Versions/$FRAMEWORK_VERSION/Libraries/$BASE_LIB" || exit 1
+  done
 
   echo "  > creating plist"
     cat > "$FRAMEWORK_BUNDLE/Resources/Info.plist" <<EOF
