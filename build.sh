@@ -90,7 +90,7 @@ build_libbson() {
   cp -r $SDK_PATH_OS/include/$FRAMEWORK_NAME*/* "$FRAMEWORK_BUNDLE/Headers/" || exit 1
   cat > "$FRAMEWORK_BUNDLE/Headers/$FRAMEWORK_NAME.h" <<EOF
 #define BCON_H_
-#include <${FRAMEWORK_BASE_NAME}.h>
+#include "${FRAMEWORK_BASE_NAME}.h"
 EOF
 
   echo "  > creating module map"
@@ -98,7 +98,6 @@ EOF
   cat > "$FRAMEWORK_BUNDLE/Modules/module.modulemap" <<EOF
 framework module ${FRAMEWORK_NAME} [system] {
   umbrella header "${FRAMEWORK_NAME}.h"
-  link "${FRAMEWORK_BASE_NAME}"
 
   export *
   module * { export * }
@@ -172,7 +171,6 @@ EOF
   cat > "$FRAMEWORK_BUNDLE/Modules/module.modulemap" <<EOF
 framework module ${FRAMEWORK_NAME} [system] {
   umbrella header "${FRAMEWORK_NAME}.h"
-  link "${FRAMEWORK_BASE_NAME}"
 
   export *
   module * { export * }
